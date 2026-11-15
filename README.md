@@ -1,8 +1,9 @@
 <div align="center">
 
 # 🛡️ Security Engineer Portfolio
-
-
+ 
+**위협을 수집하고 → 탐지하고 → 분석하고 → 대응까지 연결하는 보안 엔지니어**
+ 
 `IPS Signature` · `AI for Security` · `SIEM / ELK` · `Security Automation`
 
 </div>
