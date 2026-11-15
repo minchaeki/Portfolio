@@ -86,13 +86,14 @@
 <br>
 
 ## 📂 Projects
-
+ 
 | # | 프로젝트 | 분류 | 기간 |
 |:-:|---|---|---|
 | 1 | [보안 위협 자동 수집·분석·경보 파이프라인](#1-보안-위협-자동-수집분석경보-파이프라인) | Security Automation / Threat Intelligence | 2026.02 |
 | 2 | [IPS Signature Development](#2-network-security--ips-signature-development) | Vulnerability Analysis / IPS | 2026.03 ~ 2026.11 |
 | 3 | [Snort ML 기반 웹 공격 탐지 연구](#3-snort-ml-기반-웹-공격-탐지-및-상세-분석-시스템-연구) | AI for Security / Network Security | 2026.06 ~ 2026.11 |
 | 4 | [ELK 기반 웹 공격 탐지 파이프라인](#4-elk-기반-웹-공격-탐지-파이프라인-구축) | SIEM / Correlation Analysis | 2026.10 |
+| 5 | [AI 공급망 무결성 거버넌스 프레임워크](#5-ai-공급망-무결성-거버넌스-프레임워크) | AI Governance / AI Security / Trustworthy AI | 2025.05 ~ 2025.10 |
 
 ---
 
@@ -493,6 +494,70 @@ not attack_type : "normal"
 
 `Docker Compose` · `Elasticsearch 8.15` · `Kibana` · `Python (re, requests)` · `KQL` · `Aggregation Query` · `AutoSet` · `Kali Linux`
 
+ 
+## 5. AI 공급망 무결성 거버넌스 프레임워크
+ 
+> `AI Governance` `AI Security` `Trustworthy AI` `Blockchain` `DID` · 2025.05 ~ 2025.10 (5개월) · 기여도 90%
+> 🔗 **Repository:** [iSBOMB](https://github.com/minchaeki/iSBOMB)
+ 
+### 📌 배경 및 문제
+ 
+| 문제 | 내용 |
+|---|---|
+| **AI 거버넌스 표준의 부재** | EU AI Act, NIST AI RMF 등 국제 규제가 AI 시스템의 투명성과 책임성을 요구하지만, **모델 무결성을 기술적으로 보장하는 표준과 구현체가 없음** |
+| **위변조 탐지 불가** | 공급망 어느 단계에서든 모델이 오염되거나 위변조되어도 **이를 탐지할 방법이 없음** |
+ 
+### 💡 해결 방법
+ 
+| 해결 | 구현 |
+|---|---|
+| **AI 모델 공급망 전 과정의 투명성·추적성 확보** | 스마트 컨트랙트로 **AIBOM**(AI Bill of Materials) 등록·검증·이력 전 과정 자동화 |
+| **중앙 기관 없는 신뢰 검증 체계** | **DID** 기반 탈중앙 신원증명으로 AI 컴포넌트 제공자 신원 보장 |
+| **단일 장애점 없는 거버넌스 인프라** | **IPFS** 분산 저장으로 AIBOM 원본 무결성 보장 |
+ 
+### 🤔 왜 이 방법인가?
+ 
+1. **기존 AI 거버넌스 접근의 한계**
+   제도적 규제(EU AI Act)만으로는 실제 무결성을 보장할 수 없음 → **기술적으로 강제되는 불변 감사 추적 체계**가 필요
+2. **중앙화 신뢰 모델의 보안 취약성**
+   특정 기관에 의존하면 그 기관 자체가 공격 대상이 됨 → DID로 신뢰 기관 없이 검증 가능한 **Zero-trust 거버넌스** 구현
+3. **단일 저장소의 가용성·무결성 위협**
+   중앙 서버가 장애나 공격을 받으면 거버넌스 체계 전체가 붕괴 → **IPFS 분산 저장**으로 해결
+### 🏗️ 아키텍처
+ 
+```mermaid
+flowchart LR
+    P[AI 컴포넌트 제공자] -->|DID 신원 증명| D[Hyperledger<br/>Indy / Aries]
+    P -->|AIBOM 원본| I[(IPFS<br/>분산 저장)]
+    I -->|콘텐츠 해시| S[Solidity<br/>스마트 컨트랙트]
+    D -->|신원 검증| S
+    S --> V[AIBOM 등록 · 검증 · 이력 관리]
+    V --> W[FastAPI + Next.js<br/>웹 서비스]
+```
+ 
+### ⚙️ 주요 구현
+ 
+| 구현 | 내용 |
+|---|---|
+| **스마트 컨트랙트 설계** | Solidity로 AIBOM 등록·검증·이력 관리 전 과정 구현 |
+| **DID 인프라 구축** | Hyperledger Indy / Aries 기반 탈중앙 신원 검증 시스템 구축 |
+| **IPFS 분산 저장 설계** | IPFS에 AIBOM 원본을 저장해 단일 장애점 완전 제거 |
+| **풀스택 단독 구현** | FastAPI + Next.js + Docker로 전체 시스템 컨테이너화 |
+ 
+### 🏆 성과
+ 
+- **ICACT 2026** 국제학회 논문 발표
+- 창업대회 **우수사업계획서상**
+- 창업대회 **장려상**
+### 🔭 연구 확장 방향
+ 
+1. **ZKP 도입:** 영지식증명으로 프라이버시를 보존하는 무결성 검증 구현
+2. **퍼징 테스트 적용:** 스마트 컨트랙트 보안 취약점 자동 탐지 체계 구축
+3. **런타임 모니터링 연계:** Adversarial Attack 탐지와 결합한 실시간 무결성 모니터링
+### 🧰 기술 스택
+ 
+`Solidity` · `Hyperledger Indy / Aries` · `IPFS` · `FastAPI` · `Next.js` · `Docker`
+ 
 ---
 
 ## 🧩 프로젝트 간 연결
