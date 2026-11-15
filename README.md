@@ -120,6 +120,7 @@ flowchart LR
     G --> H[📧 이메일 즉시 경보]
     C --> I[📰 일일 보안 뉴스 메일]
 ```
+<img width="1455" height="724" alt="스크린샷 2026-11-15 오후 9 51 39" src="https://github.com/user-attachments/assets/571a912b-96af-4186-9cf0-b60caac2f04c" />
 
 ### ⚙️ 구현 내용
 
@@ -454,6 +455,8 @@ flowchart LR
 ### 🔎 단계별 결과
 
 #### ① 로그 수집·적재: 전체 49건
+<img width="1002" height="513" alt="스크린샷 2026-11-15 오후 9 49 25" src="https://github.com/user-attachments/assets/f8a972ba-d4be-41c5-83ab-74cd11288b6f" />
+
 AutoSet `access.log`를 Python으로 파싱해 `attack_type` · `src_ip` · `url` · `status` 필드로 구조화 적재했습니다.
 Kibana Discover에서 공격·정상 요청을 한 화면에서 조회할 수 있습니다.
 
@@ -461,10 +464,13 @@ Kibana Discover에서 공격·정상 요청을 한 화면에서 조회할 수 �
 요청별 공격 유형 태깅 (SQLi · XSS · Command Injection · Path Traversal 등)
 
 #### ③ 공격 탐지: 15건 필터링
+<img width="988" height="507" alt="스크린샷 2026-11-15 오후 9 48 59" src="https://github.com/user-attachments/assets/690f0dfa-67c5-4557-b2a6-b5672c533549" />
+
 ```kql
 not attack_type : "normal"
 ```
 → 49건 중 **공격 15건**만 탐지 (Command Injection, XSS 등)
+
 
 #### ④ 상관 분석: 다중 공격 시도 IP 탐지
 같은 IP가 임계치를 초과해 여러 유형의 공격을 시도하면 침투 시도로 판단합니다.
